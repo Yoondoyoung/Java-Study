@@ -1,0 +1,113 @@
+/*
+	
+	1.BusCharge.class 의 charge() Method 사용유무는..?
+	2. 하위 클래스 (Student, Adult, Old)에서 charge() Method 가 OverRiding 않는다면?
+
+	==> abstact Method / abstact class 의 필요성 및 이해
+	abstract Method
+	=> 구체적일 필요가 없는 Method
+	-> 하위클래스에서 구체적으로 재정의(OverRiding)해야하는 강제성을 갖는 Method
+
+	abstract class
+	=> 구체적이지 않은 abstract Method가 정의된 클래스
+	-> 일반화의 관계중 공통적, 일반적 행위와 속성을 공유를 목적으로 정의된 클래스
+	==>abstract class 는 instance 생성 할 수 없다 :: 중요
+
+*/
+abstract class BusCharge
+{
+	//Field
+	String section;
+	//constructor
+	public BusCharge(){
+
+}
+	public BusCharge(String section){
+		this.section = section;
+	}
+	//method
+	public void information(){
+		System.out.println("버스요금안내");
+	}
+	//==> 사용되지 않으며, 하위 클래스에 OverRiding을 강제하는 추상메서드 정의
+	//public void charge(){
+	//	System.out.println("학생 : 300, 일반인 : 500, 어르신 : 무료");
+	//}
+	public abstract void charge();
+}
+
+class Student extends BusCharge
+{
+	public Student(){
+		super("학생");
+	}
+	public void charge(){
+		System.out.println(":: 300원\n");
+	}
+	
+}
+
+class Adult extends BusCharge
+{
+	public Adult(){
+		super("일반인");
+	}
+	public void charge(){
+		System.out.println(":: 500원\n");
+	}
+}
+
+class Old extends BusCharge{
+	public Old(){
+		super("어르신");
+	}
+	public void charge(){
+		System.out.println(":: 무료\n");
+	}
+}
+
+public class Display3
+	{
+	//main method
+	public static void main(String[]args){
+		BusCharge b1 = new Student();
+		BusCharge b2 = new Adult();
+		BusCharge b3 = new Old();
+
+		//Student b1 = new Student();
+		//Adult b2 = new Adult();
+		//Old b3 = new Old();
+
+		//=> Polymorphism : 하나의 인터페이스로 접근 및 다양한 활용
+
+		b1.information();
+		System.out.println(b1.section);
+		b1.charge(); // 어떤 클래스의 method가 호출되었는지 확인
+
+		b2.information();
+		System.out.println(b2.section);
+		b2.charge();
+
+		b3.information();
+		System.out.println(b3.section);
+		b3.charge();
+
+		/*
+		<<구현2>> 아래의 구현에서 문제 발생 : 컴파일 시 에러
+		//하나 : 문제가 발생한 이유
+		// 둘 : 문제를 해결하여 출력이 될 수 있도록 구현을 수정할 것
+		// => 힌트 : CastingComplete.java 의 세번째를 이해하자 / casting 연산자를 사용한이유는??
+
+		Fee[] fee = new Fee[3];
+		fee[0] = new Student();
+		fee[1] = new Adult();
+		fee[2] = new Old();
+
+		for(int i = 0; j<fee.length; i++;){
+			fee[i].information();
+			System.out.println(fee[i].section);
+			fee[i].charge();
+		}
+		*/
+	}
+}
